@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const port = 4000;
 
+
 app.get("/", (req, res) => {
     res.send(`<!DOCTYPE html>
     <html>
@@ -52,6 +53,10 @@ app.get("/", (req, res) => {
       
     </body>
     </html>`);
+});
+
+app.post("/", (req, res) => {
+    res.send("its ok");
 });
 
 app.listen(port);
