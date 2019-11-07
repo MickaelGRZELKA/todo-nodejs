@@ -7,20 +7,23 @@ const Item = require("./models/Item");
 const db = require("./config/database");
 
 db.authenticate()
-    .then(() => {
-        console.log('Connection has been established successfully.');
-    })
-    .catch(err => {
-        console.error('Unable to connect to the database:', err);
-    });
+  .then(() => {
+    console.log('Connection has been established successfully.');
+  })
+  .catch(err => {
+    console.error('Unable to connect to the database:', err);
+  });
 
 
 app.use(express.urlencoded({
-    extended: false
+  extended: false
 }));
 
 app.get("/", (req, res) => {
-    res.send(`<!DOCTYPE html>
+  Item.findAll().then(items => {
+    console.log(items);
+  });
+  res.send(`<!DOCTYPE html>
     <html>
     <head>
       <meta charset="UTF-8">
@@ -72,10 +75,15 @@ app.get("/", (req, res) => {
 });
 
 app.post("/", (req, res) => {
-    Item.findAll().then(items => {
-        console.log("All items:", JSON.stringify(items, null, 4));
-    });
-    res.send("its ok");
+  Item.create({
+      item: req.body.item
+    })
+    .then(() => {
+      res.redirect("/");
+    })
+    .catch(err => {
+      console.log(err);
+    })
 });
 
 app.listen(port);
