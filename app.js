@@ -21,9 +21,7 @@ app.use(express.urlencoded({
 
 app.get("/", (req, res) => {
   Item.findAll().then(items => {
-    console.log(items);
-  });
-  res.send(`<!DOCTYPE html>
+    res.send(`<!DOCTYPE html>
     <html>
     <head>
       <meta charset="UTF-8">
@@ -72,18 +70,20 @@ app.get("/", (req, res) => {
       
     </body>
     </html>`);
+  });
+
+  app.post("/", (req, res) => {
+    Item.create({
+        item: req.body.item
+      })
+      .then(() => {
+        res.redirect("/");
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  });
 });
 
-app.post("/", (req, res) => {
-  Item.create({
-      item: req.body.item
-    })
-    .then(() => {
-      res.redirect("/");
-    })
-    .catch(err => {
-      console.log(err);
-    })
-});
 
 app.listen(port);
