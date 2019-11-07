@@ -8,16 +8,17 @@ const db = require("./config/database");
 
 db.authenticate()
   .then(() => {
-    console.log('Connection has been established successfully.');
+    console.log("Connection has been established successfully.");
   })
   .catch(err => {
-    console.error('Unable to connect to the database:', err);
+    console.error("Unable to connect to the database:", err);
   });
 
-
-app.use(express.urlencoded({
-  extended: false
-}));
+app.use(
+  express.urlencoded({
+    extended: false
+  })
+);
 app.use(express.static("public"));
 
 app.get("/", (req, res) => {
@@ -45,8 +46,8 @@ app.get("/", (req, res) => {
         
         <ul class="list-group pb-5">
           ${items
-            .map(function(item){
-              return`
+            .map(function(item) {
+              return `
           <li class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
             <span class="item-text">${item.dataValues.item}</span>
             <div>
@@ -60,23 +61,26 @@ app.get("/", (req, res) => {
         
       </div>
       <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-      <script src="/public/edit.js"></script>
+      <script src="/js/edit.js"></script>
     </body>
     </html>`);
   });
 
   app.post("/", (req, res) => {
     Item.create({
-        item: req.body.item
-      })
+      item: req.body.item
+    })
       .then(() => {
         res.redirect("/");
       })
       .catch(err => {
         console.log(err);
-      })
+      });
   });
 });
 
+app.post("/update-item", (req, res) => {
+  res.send("its ok");
+});
 
 app.listen(port);
