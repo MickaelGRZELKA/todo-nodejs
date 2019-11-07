@@ -2,6 +2,7 @@ const express = require("express");
 
 const app = express();
 const port = 4000;
+const Item = require("./models/Item");
 
 const db = require("./config/database");
 
@@ -71,7 +72,9 @@ app.get("/", (req, res) => {
 });
 
 app.post("/", (req, res) => {
-    console.log(req.body.item);
+    Item.findAll().then(items => {
+        console.log("All items:", JSON.stringify(items, null, 4));
+    });
     res.send("its ok");
 });
 
