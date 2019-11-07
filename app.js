@@ -1,11 +1,11 @@
 const express = require("express");
-const Sequelize = require("sequelize");
-const db = new Sequelize("todolist", "todolist", "pass", {
-    host: "localhost",
-    dialect: "postgres"
-});
-db
-    .authenticate()
+
+const app = express();
+const port = 4000;
+
+const db = require("./config/database");
+
+db.authenticate()
     .then(() => {
         console.log('Connection has been established successfully.');
     })
@@ -13,8 +13,6 @@ db
         console.error('Unable to connect to the database:', err);
     });
 
-const app = express();
-const port = 4000;
 
 app.use(express.urlencoded({
     extended: false
